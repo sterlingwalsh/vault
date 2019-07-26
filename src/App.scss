@@ -1,0 +1,13 @@
+.main-section {
+  display: flex;
+  flex-direction: row;
+
+  > * {
+    flex-grow: 1;
+    border: 1px solid red;
+  }
+
+  .filter {
+    max-width: 200px;
+  }
+}
