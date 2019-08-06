@@ -7,7 +7,7 @@ export const selectFilterOptions = createSelector(
   filter => filter.options
 );
 
-export const selectFilterSelections = createSelector(
+export const selectCurrentFilter = createSelector(
   [selectFilter],
-  filter => filter.selections
+  filter => filter.currentFilter
 );
