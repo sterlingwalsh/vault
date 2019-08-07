@@ -11,7 +11,7 @@
   }
 
   &.expanded {
-    width: 1720px;
+    width: 1600px;
     height: 640px;
     cursor: auto;
     > * {
@@ -33,7 +33,7 @@
   box-shadow: 0 0.33rem 0.67rem 0 black;
   flex-grow: 0;
 
-  &:hover {
+  &:hover:not(.expanded-item) {
     box-shadow: 0 0.67rem 1rem 0 black;
     transform: scale(1.01);
   }

@@ -14,20 +14,31 @@ import {
 } from './filter.styles.jsx';
 
 const Filter = ({ currentFilter: { filters }, dispatch, ...otherProps }) => {
+  const handleClick = (evt, categoryName, item) => {
+    console.log({ clicked: evt.target.checked, categoryName, item });
+  };
+
   return (
     <FilterContainer {...otherProps}>
-      {Object.keys(filters).map((categoryName, i) => (
-        <FilterCategory key={i}>
-          <div>{categoryName}</div>
-          <FilterScrollContainer>
-            {Object.keys(filters[categoryName]).map((item, j) => (
-              <CheckBoxContainer key={j}>
-                <CheckBox>{item}</CheckBox>
-              </CheckBoxContainer>
-            ))}
-          </FilterScrollContainer>
-        </FilterCategory>
-      ))}
+      {Object.keys(filters).map((categoryName, i) => {
+        return (
+          <FilterCategory key={i}>
+            <div>{categoryName}</div>
+            <FilterScrollContainer>
+              {Object.keys(filters[categoryName]).map((item, j) => (
+                <CheckBoxContainer key={j}>
+                  <CheckBox
+                    onChange={evt => handleClick(evt, categoryName, item)}
+                    checkProps={{ categoryName, item }}
+                  >
+                    {item}
+                  </CheckBox>
+                </CheckBoxContainer>
+              ))}
+            </FilterScrollContainer>
+          </FilterCategory>
+        );
+      })}
     </FilterContainer>
   );
 };

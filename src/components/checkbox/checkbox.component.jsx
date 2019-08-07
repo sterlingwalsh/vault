@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   * {
+    cursor: pointer;
   }
 `;
 
@@ -12,13 +13,30 @@ const Check = styled.input.attrs(props => ({
 
 const Text = styled.span``;
 
-const CheckBox = ({ children, ...otherProps }) => (
-  <Container {...otherProps}>
-    <span>
-      <Check />
-    </span>
-    <Text>{children}</Text>
-  </Container>
-);
+const CheckBox = ({
+  children,
+  checked,
+  onChange,
+  checkProps,
+  ...otherProps
+}) => {
+  const ref = React.createRef();
+  const handleTextClick = event => {
+    ref.current.click();
+  };
+  return (
+    <Container {...otherProps}>
+      <span>
+        <Check
+          ref={ref}
+          checked={checked}
+          onChange={onChange}
+          {...checkProps}
+        />
+      </span>
+      <Text onClick={handleTextClick}>{children}</Text>
+    </Container>
+  );
+};
 
 export default CheckBox;
