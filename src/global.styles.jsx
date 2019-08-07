@@ -6,10 +6,27 @@ export const textColor = `rgb(230, 230, 230)`;
 export const borderRadius = `0.5rem;`;
 export const dropShadow = `0 0.33rem 0.67rem 0 black`;
 
+export const scrollBar = `
+  ::-webkit-scrollbar{
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb{
+    background: ${textColor};
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-track{
+    box-shadow: inset 0 0 3px ${textColor};
+    border-radius: 10px;
+  }
+`;
+
 const GlobalStyle = createGlobalStyle`
 * {
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+
+  ${scrollBar}
 }
 
 body,
