@@ -14,7 +14,6 @@ export const FilterContainer = styled.div`
   height: 90vh;
   display: flex;
   flex-direction: column;
-  position: fixed;
   box-shadow: ${dropShadow};
 `;
 

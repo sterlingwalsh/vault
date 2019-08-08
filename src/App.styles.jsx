@@ -5,6 +5,8 @@ import { scrollBar } from './global.styles';
 export const MainSection = styled.section`
   display: flex;
   flex-direction: row;
+`;
 
-  ${scrollBar}
+export const FilterContainer = styled.div`
+  
 `;
