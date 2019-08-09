@@ -8,18 +8,20 @@ import GlobalStyle from './global.styles';
 
 // import { getGameData } from './util/steamapi';
 
-import { MainSection } from './App.styles.jsx';
+import { MainSection, FilterContainer, Body } from './App.styles.jsx';
 
 const App = () => {
   return (
-    <div>
+    <Body>
       <GlobalStyle />
-      <Header />
+      <Header className='header' />
       <MainSection>
-        <Filter className='filter' />
+        <FilterContainer>
+          <Filter className='filter' />
+        </FilterContainer>
         <ItemContainer className='item-container' />
       </MainSection>
-    </div>
+    </Body>
   );
 };
 

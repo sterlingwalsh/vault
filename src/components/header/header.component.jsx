@@ -1,11 +1,7 @@
 import React from 'react';
 
-import './header.styles.scss'
-
-const Header = (props) => {
-    return(
-        <div>Header</div>
-    )
-}
+const Header = ({ ...otherProps }) => {
+  return <div {...otherProps}>Header</div>;
+};
 
 export default Header;

@@ -10,7 +10,6 @@ export const FilterContainer = styled.div`
   margin: 0.5rem;
   background: ${backgroundColor};
   border-radius: ${borderRadius};
-  color: ${textColor};
   height: 90vh;
   display: flex;
   flex-direction: column;
@@ -42,7 +41,6 @@ export const FilterScrollContainer = styled.div`
   padding-left: 0.5rem;
   border-top: 1px solid ${textColor};
   overflow-y: auto;
-  box-shadow: inset 0 -10px 10px 0px ${backgroundColor};
 `;
 
 export const CheckBoxContainer = styled.div`
