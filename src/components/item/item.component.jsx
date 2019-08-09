@@ -1,5 +1,4 @@
 import React from 'react';
-import { GAME_DATA } from '../../data/gameData';
 import SanitizeHTML from '../sanitize/sanitize.component';
 
 import './item.styles.scss';
@@ -9,19 +8,12 @@ class Item extends React.Component {
     super(props);
 
     this.state = {
-      gameId: props.gameId,
-      gameData: {},
+      gameData: props.gameData,
       currentImage: '',
       expanded: props.expanded
     };
 
     this.interval = null;
-  }
-
-  componentDidMount() {
-    this.setState({ gameData: GAME_DATA }, () =>
-      this.setState({ currentImage: this.state.gameData.header_image })
-    );
   }
 
   startSlideshow = () => {

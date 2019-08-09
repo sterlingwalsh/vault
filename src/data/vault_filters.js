@@ -1,7 +1,7 @@
 const FILTERS = {
   types: ['game', 'dlc'],
   platforms: ['Windows', 'Mac', 'Linux'],
-  genres_list: [
+  genres: [
     null,
     'Action',
     'Strategy',
@@ -78,7 +78,7 @@ const FILTERS = {
     'Violent',
     'Gore'
   ],
-  categories_list: [
+  categories: [
     null,
     'Multi-player',
     'Single-player',
@@ -120,8 +120,8 @@ const FILTERS = {
     'Online Co-op',
     'Local Co-op'
   ],
-  controller_support_list: [null, 'full'],
-  supported_languages_list: [
+  controller_support: [null, 'full'],
+  supported_languages: [
     'English',
     'French',
     'German',

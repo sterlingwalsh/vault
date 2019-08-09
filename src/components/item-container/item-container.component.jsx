@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Item from '../item/item.component';
+import { connect } from 'react-redux';
 
 import { Container } from './item-container.styles.jsx';
 
-const ItemContainer = ({ ...otherProps }) => {
-  const items = Array(12)
-    .fill(null)
-    .map((item, i) => <Item key={i} gameId={1930} expanded={i === 2} />);
+import {
+  fetchInventoryStart,
+  setCurrentGamesDisplayStart
+} from '../../redux/inventory/inventory.actions';
+
+const ItemContainer = ({
+  filteredGames,
+  currentGamesDisplay,
+  fetchInventory,
+  setCurrentGamesDisplay,
+  ...otherProps
+}) => {
+  useEffect(() => {
+    fetchInventory();
+  }, [fetchInventory]);
+
+  useEffect(() => {
+    setCurrentGamesDisplay(filteredGames.slice(0, 15));
+  }, [filteredGames, setCurrentGamesDisplay]);
+
+  const items = currentGamesDisplay.map((item, i) => (
+    <Item key={i} gameData={item} />
+  ));
   return (
     <Container {...otherProps} className='item-container'>
       {items}
@@ -15,4 +35,18 @@ const ItemContainer = ({ ...otherProps }) => {
   );
 };
 
-export default ItemContainer;
+const mapStateToProps = ({ inventory }) => ({
+  filteredGames: inventory.filteredGames,
+  currentGamesDisplay: inventory.currentGamesDisplay
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchInventory: () => dispatch(fetchInventoryStart()),
+  setCurrentGamesDisplay: gameIds =>
+    dispatch(setCurrentGamesDisplayStart(gameIds))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ItemContainer);

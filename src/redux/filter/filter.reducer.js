@@ -1,5 +1,5 @@
 import FILTERS from '../../data/vault_filters';
-import FilterActionTypes from './filter.types';
+// import FilterActionTypes from './filter.types';
 import { toProperCase } from './filter.utils';
 
 const currentFilter = { all: 1, filters: {} };
@@ -20,7 +20,7 @@ for (let section in FILTERS) {
   currentFilter.filters[sectionFormat] = sectionObject;
 }
 
-const INITIAL_STATE = { options: FILTERS, currentFilter: currentFilter };
+const INITIAL_STATE = { currentFilter: currentFilter };
 
 const filterReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
