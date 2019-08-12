@@ -9,7 +9,9 @@ class Item extends React.Component {
 
     this.state = {
       gameData: props.gameData,
-      currentImage: '',
+      currentImage: props.gameData.header_image
+        ? props.gameData.header_image
+        : '',
       expanded: props.expanded
     };
 
@@ -22,10 +24,11 @@ class Item extends React.Component {
       currentImage: this.state.gameData.screenshots[i++].path_thumbnail
     });
     this.interval = setInterval(() => {
+      if (i >= this.state.gameData.screenshots.length) i = 0;
       this.setState({
         currentImage: this.state.gameData.screenshots[i++].path_thumbnail
       });
-    }, 3000);
+    }, 2000);
   };
 
   endSlideshow = () => {

@@ -32,18 +32,16 @@ export function* fetchInventory() {
 
 export function* fetchGamesData({ payload }) {
   try {
-    yield Promise.all(payload.map(id => getGameData(id))).then(gamesData =>
-      put(setCurrentGamesDisplaySuccess(gamesData))
-    );
+    if (!payload.length) return;
+    const response = yield getGameData(payload);
+    // console.log({ response });
+    const gamesData = response.map(game => game.data);
+    yield put(setCurrentGamesDisplaySuccess(gamesData));
   } catch (err) {}
 }
 
 export function* fetchInventoryStart() {
   yield takeLatest(INVENTORY_TYPES.FETCH_INVENTORY_START, fetchInventory);
-}
-
-export function* fetchGameDataStart() {
-  yield all(INVENTORY_TYPES.FETCH_GAME_DATA_START);
 }
 
 export function* setCurrentGamesDisplayStart() {
@@ -54,9 +52,5 @@ export function* setCurrentGamesDisplayStart() {
 }
 
 export function* inventorySagas() {
-  yield all([
-    call(fetchInventoryStart),
-    call(fetchGameDataStart),
-    call(setCurrentGamesDisplayStart)
-  ]);
+  yield all([call(fetchInventoryStart), call(setCurrentGamesDisplayStart)]);
 }

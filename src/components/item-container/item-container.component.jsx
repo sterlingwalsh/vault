@@ -28,6 +28,7 @@ const ItemContainer = ({
   const items = currentGamesDisplay.map((item, i) => (
     <Item key={i} gameData={item} />
   ));
+  console.log({ currentGamesDisplay });
   return (
     <Container {...otherProps} className='item-container'>
       {items}
