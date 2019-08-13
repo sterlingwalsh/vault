@@ -1,8 +1,13 @@
 import FILTERS from '../../data/vault_filters';
-// import FilterActionTypes from './filter.types';
-import { toProperCase } from './filter.utils';
+import { toProperCase } from '../../util/general.utils';
 
-const currentFilter = { all: 1, filters: {} };
+import INVENTORY_TYPES from '../inventory/inventory.types';
+
+import { sortAlpha, applyFilter } from './filter.utils';
+import FILTER_TYPES from './filter.types';
+import { selectItemsList } from '../inventory/inventory.selectors';
+
+const currentFilter = {};
 
 for (let section in FILTERS) {
   const sectionObject = {};
@@ -17,13 +22,30 @@ for (let section in FILTERS) {
       sectionObject[item] = 0;
     }
   });
-  currentFilter.filters[sectionFormat] = sectionObject;
+  currentFilter[sectionFormat] = sectionObject;
 }
 
-const INITIAL_STATE = { currentFilter: currentFilter };
+const INITIAL_STATE = { currentFilter, filteredGames: [] };
 
 const filterReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case INVENTORY_TYPES.FETCH_INVENTORY_SUCCESS:
+      return {
+        ...state,
+        filteredGames: sortAlpha([...action.payload])
+      };
+
+    case FILTER_TYPES.CHANGE_FILTER:
+      const { category, item, status } = action.payload;
+      const { currentFilter } = state;
+      const newFilter = {
+        ...currentFilter,
+        [category]: { ...currentFilter[category], [item]: status }
+      };
+      return {
+        ...state,
+        currentFilter: newFilter
+      };
     default:
       return state;
   }

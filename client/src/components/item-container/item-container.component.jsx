@@ -5,10 +5,16 @@ import { connect } from 'react-redux';
 
 import { Container } from './item-container.styles.jsx';
 
+import { createStructuredSelector } from 'reselect';
+
+import { selectCurrentGamesDisplay } from '../../redux/inventory/inventory.selectors';
+
 import {
   fetchInventoryStart,
   setCurrentGamesDisplayStart
 } from '../../redux/inventory/inventory.actions';
+
+import { selectFilteredGames } from '../../redux/filter/filter.selectors';
 
 const ItemContainer = ({
   filteredGames,
@@ -22,23 +28,23 @@ const ItemContainer = ({
   }, [fetchInventory]);
 
   useEffect(() => {
-    setCurrentGamesDisplay(filteredGames.slice(0, 15));
+    setCurrentGamesDisplay(
+      filteredGames.slice(0, 15).map(item => item.steam_appid)
+    );
   }, [filteredGames, setCurrentGamesDisplay]);
 
-  const items = currentGamesDisplay.map((item, i) => (
-    <Item key={i} gameData={item} />
-  ));
-  console.log({ currentGamesDisplay });
   return (
     <Container {...otherProps} className='item-container'>
-      {items}
+      {currentGamesDisplay.map((item, i) => (
+        <Item key={i} gameData={item} />
+      ))}
     </Container>
   );
 };
 
-const mapStateToProps = ({ inventory }) => ({
-  filteredGames: inventory.filteredGames,
-  currentGamesDisplay: inventory.currentGamesDisplay
+const mapStateToProps = createStructuredSelector({
+  filteredGames: selectFilteredGames,
+  currentGamesDisplay: selectCurrentGamesDisplay
 });
 
 const mapDispatchToProps = dispatch => ({

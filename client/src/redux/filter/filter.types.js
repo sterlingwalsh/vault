@@ -1,5 +1,7 @@
-export const FilterActionTypes = {
+export const FILTER_TYPES = {
   GET_FILTER_OPTIONS: 'GET_FILTER_OPTIONS',
   GET_CURRENT_FILTER: 'GET_CURRENT_FILTER',
   CHANGE_FILTER: 'CHANGE_FILTER'
 };
+
+export default FILTER_TYPES;

@@ -2,7 +2,7 @@ import INVENTORY_TYPES from './inventory.types';
 
 const INITIAL_STATE = {
   gameData: {},
-  inventory: {},
+  itemsList: [],
   filteredGames: [],
   currentGamesDisplay: []
 };
@@ -12,7 +12,7 @@ const inventoryReducer = (state = INITIAL_STATE, action) => {
     case INVENTORY_TYPES.FETCH_INVENTORY_SUCCESS:
       return {
         ...state,
-        inventory: action.payload
+        itemsList: action.payload
       };
     case INVENTORY_TYPES.FETCH_GAME_DATA_SUCCESS:
       return {
@@ -21,11 +21,6 @@ const inventoryReducer = (state = INITIAL_STATE, action) => {
           ...state.gameData,
           [action.payload.steam_appid]: action.payload
         }
-      };
-    case INVENTORY_TYPES.SET_FILTERED_GAMES:
-      return {
-        ...state,
-        filteredGames: action.payload
       };
     case INVENTORY_TYPES.SET_CURRENT_GAMES_DISPLAY_SUCCESS:
       return {

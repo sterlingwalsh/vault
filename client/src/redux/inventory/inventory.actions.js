@@ -43,8 +43,3 @@ export const setCurrentGamesDisplayFailure = err => ({
   type: INVENTORY_TYPES.SET_CURRENT_GAMES_DISPLAY_FAILURE,
   payload: err
 });
-
-export const setFilteredGames = gameIds => ({
-  type: INVENTORY_TYPES.SET_FILTERED_GAMES,
-  payload: gameIds
-});

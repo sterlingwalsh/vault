@@ -2,17 +2,17 @@ import { createSelector } from 'reselect';
 
 export const selectInventory = state => state.inventory;
 
+export const selectItemsList = createSelector(
+  [selectInventory],
+  inventory => inventory.itemsList
+);
+
 export const selectGameData = createSelector(
   [selectInventory],
   inventory => inventory.gameData
 );
 
-export const selectFilteredGames = createSelector(
+export const selectCurrentGamesDisplay = createSelector(
   [selectInventory],
-  inventory => inventory.filteredGames
-);
-
-export const selectCurrentGamesData = createSelector(
-  [selectInventory],
-  inventory => inventory.currentGamesData
+  inventory => inventory.currentGamesDisplay
 );

@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentFilter } from '../../redux/filter/filter.selectors';
+import { changeFilter } from '../../redux/filter/filter.actions';
 
 import CheckBox from '../checkbox/checkbox.component';
 
@@ -13,23 +14,23 @@ import {
   FilterScrollContainer
 } from './filter.styles.jsx';
 
-const Filter = ({ currentFilter: { filters }, dispatch, ...otherProps }) => {
+const Filter = ({ currentFilter, dispatch, changeFilter, ...otherProps }) => {
   const handleClick = (evt, categoryName, item) => {
-    console.log({ clicked: evt.target.checked, categoryName, item });
+    changeFilter(categoryName, item, evt.target.checked);
   };
 
   return (
     <FilterContainer {...otherProps}>
-      {Object.keys(filters).map((categoryName, i) => {
+      {Object.keys(currentFilter).map((categoryName, i) => {
         return (
           <FilterCategory key={i}>
             <div>{categoryName}</div>
             <FilterScrollContainer>
-              {Object.keys(filters[categoryName]).map((item, j) => (
+              {Object.keys(currentFilter[categoryName]).map((item, j) => (
                 <CheckBoxContainer key={j}>
                   <CheckBox
                     onChange={evt => handleClick(evt, categoryName, item)}
-                    checkProps={{ categoryName, item }}
+                    checkProps={{ category: categoryName, item }}
                   >
                     {item}
                   </CheckBox>
@@ -47,7 +48,12 @@ const mapStateToProps = createStructuredSelector({
   currentFilter: selectCurrentFilter
 });
 
+const mapDispatchToProps = dispatch => ({
+  changeFilter: (category, item, status) =>
+    dispatch(changeFilter({ category, item, status }))
+});
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Filter);

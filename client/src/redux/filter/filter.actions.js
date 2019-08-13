@@ -1,6 +1,6 @@
-import FilterActionTypes from './filter.types';
+import FILTER_TYPES from './filter.types';
 
 export const changeFilter = selection => ({
-  type: FilterActionTypes.changeFilter,
+  type: FILTER_TYPES.CHANGE_FILTER,
   payload: selection
 });
