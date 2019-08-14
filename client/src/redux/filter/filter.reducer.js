@@ -3,9 +3,8 @@ import { toProperCase } from '../../util/general.utils';
 
 import INVENTORY_TYPES from '../inventory/inventory.types';
 
-import { sortAlpha, applyFilter } from './filter.utils';
+import { sortAlpha } from './filter.utils';
 import FILTER_TYPES from './filter.types';
-import { selectItemsList } from '../inventory/inventory.selectors';
 
 const currentFilter = {};
 

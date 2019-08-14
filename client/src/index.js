@@ -3,13 +3,23 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { Provider } from 'react-redux';
-import { store } from './redux/store';
+import InventoryProvider, {
+  InventoryContext
+} from './contexts/inventory/inventory.provider';
+import FilterProvider from './contexts/filter/filter.provider';
+
+import RootProvider from './context-util/context-util';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <InventoryProvider>
+    <InventoryContext.Consumer>
+      {value => (
+        <FilterProvider {...value}>
+          <App />
+        </FilterProvider>
+      )}
+    </InventoryContext.Consumer>
+  </InventoryProvider>,
   document.getElementById('root')
 );
 

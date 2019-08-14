@@ -17,7 +17,6 @@ const CheckBox = ({
   children,
   checked,
   onChange,
-  checkProps,
   ...otherProps
 }) => {
   const ref = React.createRef();
@@ -31,7 +30,6 @@ const CheckBox = ({
           ref={ref}
           checked={checked}
           onChange={onChange}
-          {...checkProps}
         />
       </span>
       <Text onClick={handleTextClick}>{children}</Text>

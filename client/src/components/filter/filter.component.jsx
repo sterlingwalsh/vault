@@ -1,11 +1,8 @@
-import React from 'react';
-
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { selectCurrentFilter } from '../../redux/filter/filter.selectors';
-import { changeFilter } from '../../redux/filter/filter.actions';
+import React, { useContext } from 'react';
 
 import CheckBox from '../checkbox/checkbox.component';
+
+import { FilterContext } from '../../contexts/filter/filter.provider';
 
 import {
   FilterContainer,
@@ -14,46 +11,31 @@ import {
   FilterScrollContainer
 } from './filter.styles.jsx';
 
-const Filter = ({ currentFilter, dispatch, changeFilter, ...otherProps }) => {
-  const handleClick = (evt, categoryName, item) => {
-    changeFilter(categoryName, item, evt.target.checked);
+const Filter = ({ ...otherProps }) => {
+  const { currentFilter, updateFilter } = useContext(FilterContext);
+
+  const handleClick = (evt, category, item) => {
+    updateFilter(category, item, evt.target.checked);
   };
 
   return (
     <FilterContainer {...otherProps}>
-      {Object.keys(currentFilter).map((categoryName, i) => {
-        return (
-          <FilterCategory key={i}>
-            <div>{categoryName}</div>
-            <FilterScrollContainer>
-              {Object.keys(currentFilter[categoryName]).map((item, j) => (
-                <CheckBoxContainer key={j}>
-                  <CheckBox
-                    onChange={evt => handleClick(evt, categoryName, item)}
-                    checkProps={{ category: categoryName, item }}
-                  >
-                    {item}
-                  </CheckBox>
-                </CheckBoxContainer>
-              ))}
-            </FilterScrollContainer>
-          </FilterCategory>
-        );
-      })}
+      {Object.keys(currentFilter).map((category, i) => (
+        <FilterCategory key={i}>
+          <div>{category}</div>
+          <FilterScrollContainer>
+            {Object.keys(currentFilter[category]).map((item, j) => (
+              <CheckBoxContainer key={j}>
+                <CheckBox onChange={evt => handleClick(evt, category, item)}>
+                  {item}
+                </CheckBox>
+              </CheckBoxContainer>
+            ))}
+          </FilterScrollContainer>
+        </FilterCategory>
+      ))}
     </FilterContainer>
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  currentFilter: selectCurrentFilter
-});
-
-const mapDispatchToProps = dispatch => ({
-  changeFilter: (category, item, status) =>
-    dispatch(changeFilter({ category, item, status }))
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Filter);
+export default Filter;
