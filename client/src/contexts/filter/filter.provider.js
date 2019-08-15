@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-import { sortAlpha, populateFilter } from './filter.utils';
+import { sortAlpha, populateFilter, applyFilter } from './filter.utils';
 import FILTERS from '../../data/vault_filters';
 
 const INITIAL_CONTEXT = {
@@ -22,14 +22,14 @@ const FilterProvider = ({ itemsList, children }) => {
   const filterItems = items => setItemsListFiltered(sortAlpha(items));
 
   const updateFilter = (filter => (category, item, status) => {
+    const categoryObject = filter[category];
+    const itemObject = categoryObject[item];
     const newFilter = {
       ...filter,
-      [category]: { ...filter[category], [item]: status }
+      [category]: { ...categoryObject, [item]: { ...itemObject, status } }
     };
     setCurrentFilter(newFilter);
   })(currentFilter);
-
-  console.log(currentFilter);
 
   const loadFilter = () => {
     setCurrentFilter(populateFilter(FILTERS));
@@ -40,6 +40,10 @@ const FilterProvider = ({ itemsList, children }) => {
   }, [itemsList]);
 
   useEffect(loadFilter, []);
+
+  useEffect(() => {
+    setItemsListFiltered(applyFilter(itemsList, currentFilter));
+  }, [itemsList, currentFilter]);
 
   return (
     <FilterContext.Provider

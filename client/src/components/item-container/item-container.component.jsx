@@ -11,7 +11,6 @@ const ItemContainer = ({ ...otherProps }) => {
   const {
     fetchInventory,
     setCurrentGamesDisplay,
-    currentGamesDisplay,
     currentGamesDisplayData
   } = useContext(InventoryContext);
 
@@ -25,8 +24,7 @@ const ItemContainer = ({ ...otherProps }) => {
     );
   }, [itemsListFiltered, setCurrentGamesDisplay]);
 
-  console.log({ currentGamesDisplay });
-
+  console.log({ currentGamesDisplayData });
   return (
     <Container {...otherProps} className='item-container'>
       {currentGamesDisplayData.map((item, i) => (

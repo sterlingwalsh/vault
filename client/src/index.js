@@ -8,8 +8,6 @@ import InventoryProvider, {
 } from './contexts/inventory/inventory.provider';
 import FilterProvider from './contexts/filter/filter.provider';
 
-import RootProvider from './context-util/context-util';
-
 ReactDOM.render(
   <InventoryProvider>
     <InventoryContext.Consumer>

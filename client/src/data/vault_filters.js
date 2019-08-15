@@ -1,6 +1,5 @@
 const FILTERS = {
-  types: ['game', 'dlc'],
-  platforms: ['Windows', 'Mac', 'Linux'],
+  // types: ['game', 'dlc'],
   genres: [
     null,
     'Action',
@@ -120,7 +119,8 @@ const FILTERS = {
     'Online Co-op',
     'Local Co-op'
   ],
-  controller_support: [null, 'full'],
+  // controller_support: [null, 'full'],
+  platforms: ['Windows', 'Mac', 'Linux'],
   supported_languages: [
     'English',
     'French',

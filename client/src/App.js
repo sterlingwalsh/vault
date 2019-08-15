@@ -10,7 +10,7 @@ import GlobalStyle from './global.styles';
 
 import { MainSection, FilterContainer, Body } from './App.styles.jsx';
 
-const App = () => {
+const App = (...AllProps) => {
   return (
     <Body>
       <GlobalStyle />

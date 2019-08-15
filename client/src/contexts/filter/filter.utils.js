@@ -1,5 +1,3 @@
-import { toProperCase } from '../../util/general.utils';
-
 export const sortAlpha = itemsList =>
   itemsList.sort((item1, item2) => item1.name.localeCompare(item2.name));
 
@@ -9,7 +7,7 @@ export const applyFilter = (itemsList, filter) => {
   let filtered = false;
   for (let category in filter) {
     for (let option in filter[category]) {
-      if (filter[category][option]) {
+      if (filter[category][option].status) {
         filtered = true;
         break;
       }
@@ -17,7 +15,29 @@ export const applyFilter = (itemsList, filter) => {
     if (filtered) break;
   }
   if (!filtered) return itemsList;
-  return itemsList;
+
+  let filteredItemsList = [...itemsList];
+
+  for (let category in filter) {
+    const categoryOptions = filter[category];
+    let categoryIsFiltered = false;
+    for (let option of Object.values(categoryOptions)) {
+      if (option.status) categoryIsFiltered = true;
+    }
+    if (!categoryIsFiltered) continue;
+
+    filteredItemsList = filteredItemsList.filter(item => {
+      for (let key of Object.keys(categoryOptions)) {
+        if (categoryOptions[key].status) {
+          if (item[category].includes(Number(key))) {
+            return true;
+          }
+        }
+      }
+      return false;
+    });
+  }
+  return filteredItemsList;
 };
 
 export const populateFilter = filter => {
@@ -25,14 +45,9 @@ export const populateFilter = filter => {
   for (let section in filter) {
     const sectionObject = {};
     let sectionFormat = section.replace('list', '');
-    sectionFormat = sectionFormat
-      .split('_')
-      .map(word => toProperCase(word))
-      .join(' ');
-    filter[section].forEach(item => {
+    filter[section].forEach((item, i) => {
       if (item) {
-        item = toProperCase(item);
-        sectionObject[item] = 0;
+        sectionObject[i] = { name: item, status: 0 };
       }
     });
     currentFilter[sectionFormat] = sectionObject;

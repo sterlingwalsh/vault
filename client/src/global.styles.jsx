@@ -38,6 +38,7 @@ const GlobalStyle = createGlobalStyle`
   font-family: 'Roboto', sans-serif;
   ${scrollBar};
   scroll-behavior: smooth;
+  text-size: 14px;
 }
 
 body,
