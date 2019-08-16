@@ -24,7 +24,6 @@ const ItemContainer = ({ ...otherProps }) => {
     );
   }, [itemsListFiltered, setCurrentGamesDisplay]);
 
-  console.log({ currentGamesDisplayData });
   return (
     <Container {...otherProps} className='item-container'>
       {currentGamesDisplayData.map((item, i) => (

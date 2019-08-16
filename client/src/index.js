@@ -6,13 +6,20 @@ import * as serviceWorker from './serviceWorker';
 import InventoryProvider, {
   InventoryContext
 } from './contexts/inventory/inventory.provider';
-import FilterProvider from './contexts/filter/filter.provider';
+import FilterProvider, {
+  FilterContext
+} from './contexts/filter/filter.provider';
+
+import ContextLogger from './context-logger';
+
+const contexts = [['Inventory', InventoryContext], ['Filter', FilterContext]];
 
 ReactDOM.render(
   <InventoryProvider>
     <InventoryContext.Consumer>
       {value => (
         <FilterProvider {...value}>
+          <ContextLogger contexts={contexts} />
           <App />
         </FilterProvider>
       )}

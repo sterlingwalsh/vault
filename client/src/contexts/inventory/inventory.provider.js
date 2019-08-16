@@ -41,7 +41,6 @@ const InventoryProvider = ({ children }) => {
   };
 
   const fetchGamesData = ids => {
-    console.log('fetch games', ids);
     if (!ids.length) return;
     setFetchingGamesData(true);
     getGameData(ids)
