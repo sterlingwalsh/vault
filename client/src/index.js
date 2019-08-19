@@ -10,16 +10,23 @@ import FilterProvider, {
   FilterContext
 } from './contexts/filter/filter.provider';
 
-import ContextLogger from './context-logger';
+import createContextLogger from './context-logger';
+
+// import { runTests } from './diff-test';
+// runTests();
 
 const contexts = [['Inventory', InventoryContext], ['Filter', FilterContext]];
+const Logger = createContextLogger({
+  contexts,
+  comparisonOptions: { skipFunctions: true }
+});
 
 ReactDOM.render(
   <InventoryProvider>
     <InventoryContext.Consumer>
       {value => (
         <FilterProvider {...value}>
-          <ContextLogger contexts={contexts} />
+          <Logger />
           <App />
         </FilterProvider>
       )}

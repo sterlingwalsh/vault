@@ -31,7 +31,7 @@ const Item = ({ gameData }) => {
 
   const { short_description, background, detailed_description } = gameData;
 
-  console.log('item rerender');
+  // console.log('item rerender');
   return (
     <div className={`item-container ${expanded ? 'expanded' : ''}`}>
       <div
