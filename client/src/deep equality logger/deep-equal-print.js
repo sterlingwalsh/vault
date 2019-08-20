@@ -1,23 +1,39 @@
-'use strict';
+import { RESULTS } from './fast-deep-equal-logging';
 
-// code based on https://github.com/epoberezkin/fast-deep-equal
+export const printDiff = (title, equalityDiff, options) => {
+  const { prev, next, equality } = equalityDiff;
 
-//options: skipFunctions
+  const printGroup = (title, eq) => {
+    const { diff, isEqual, note } = eq;
+    let color = isEqual ? 'green' : 'red';
+    if (note === RESULTS.FUNCTION_SKIPPED && !isEqual) color = 'yellow';
+    logGroup(title, color, note);
+    if (note === RESULTS.OBJECT_TYPE_CHANGE) {
+    }
+
+    if (diff) {
+      console.log(diff);
+    }
+    console.groupEnd(title);
+  };
+
+  printGroup(title, equality);
+};
 
 export default function deepEquate(a, b, options = {}) {
   const equal = (a, b) => {
     if (a === b) {
-      return createEntry(a, b, true, {}, 'Same Ref');
+      return createEntry(a, b, true, undefined, 'Strict Equal');
     }
 
     if (typeof a === 'function' && typeof b === 'function') {
       if (options.skipFunctions)
-        return createEntry(a, b, true, {}, 'Function Skipped');
+        return createEntry(a, b, true, undefined, 'Function Skipped');
     }
 
     if (a && b && typeof a == 'object' && typeof b == 'object') {
       if (a.constructor !== b.constructor) {
-        return createEntry(a, b, false, {}, 'Object Type Change');
+        return createEntry(a, b, false, undefined, 'Object Type Change');
       }
 
       if (Array.isArray(a)) {
@@ -39,13 +55,15 @@ export default function deepEquate(a, b, options = {}) {
         let diff = [];
         let length = Math.max(akeys.length, bkeys.length);
         for (let i = 0; i < length; i++) {
-          if (!b.has(akeys[i])) {
+          if (!a.has(bkeys[i])) {
             diff.push(
-              createEntry(akeys[i], bkeys[i], false, {}, 'Key Removed')
+              createEntry(akeys[i], bkeys[i], false, undefined, 'Key Added')
             );
             isEq = false;
-          } else if (!a.has(bkeys[i])) {
-            diff.push(createEntry(akeys[i], bkeys[i], false, {}, 'Key Added'));
+          } else if (!b.has(akeys[i]) && a.get(akeys[i])) {
+            diff.push(
+              createEntry(akeys[i], bkeys[i], false, undefined, 'Key Removed')
+            );
             isEq = false;
           } else {
             let test = equal(a.get(akeys[i]), b.get(bkeys[i]));
@@ -91,9 +109,9 @@ export default function deepEquate(a, b, options = {}) {
 
       if (a.constructor === RegExp) {
         if (a.source !== b.source) {
-          return createEntry(a, b, false, {}, 'Source Different');
+          return createEntry(a, b, false, undefined, 'Source Different');
         } else if (a.flags !== b.flags) {
-          return createEntry(a, b, false, {}, 'Flags Different');
+          return createEntry(a, b, false, undefined, 'Flags Different');
         } else {
           return createEntry(a, b, true);
         }
@@ -117,7 +135,7 @@ export default function deepEquate(a, b, options = {}) {
             akeys[i],
             bkeys[i],
             false,
-            {},
+            undefined,
             'Property removed'
           );
           isEq = false;
@@ -126,7 +144,7 @@ export default function deepEquate(a, b, options = {}) {
             bkeys[i],
             akeys[i],
             false,
-            {},
+            undefined,
             'Property added'
           );
           isEq = false;
@@ -154,11 +172,19 @@ export default function deepEquate(a, b, options = {}) {
     prev = undefined,
     current = undefined,
     isEqual = true,
-    diff = {},
+    diff = undefined,
     note = ''
   ) => {
     return { prev, current, isEqual, diff, note };
   };
 
-  return equal(a, b);
+  return { prev: a, next: b, equality: equal(a, b) };
 }
+
+const logInfo = (text, color = '', note = '') => {
+  console.info(`%c ${text}`, `color: ${color}`);
+};
+
+const logGroup = (text, color = '', note = '') => {
+  console.group(`%c ${text}${note ? `(${note})` : ''}`, `color: ${color}`);
+};

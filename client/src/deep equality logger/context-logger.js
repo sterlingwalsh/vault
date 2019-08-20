@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 
+import { printDiff } from './deep-equal-print';
+
 import equal from './fast-deep-equal-logging';
 
 const createContextLogger = ({ comparisonOptions, contexts }) => () => {
@@ -30,9 +32,10 @@ const Logger = ({ comparisonOptions, ...values }) => {
   const prevState = useRef();
   const setPrevState = prev => (prevState.current = prev);
 
-  console.group('Context State');
-  console.log(equal(prevState.current, values, comparisonOptions));
-  console.groupEnd('Context State');
+  printDiff(
+    'Context State',
+    equal(prevState.current, values, comparisonOptions)
+  );
 
   setPrevState(values);
   return null;

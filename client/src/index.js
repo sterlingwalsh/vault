@@ -10,7 +10,7 @@ import FilterProvider, {
   FilterContext
 } from './contexts/filter/filter.provider';
 
-import createContextLogger from './context-logger';
+import createContextLogger from './deep equality logger/context-logger';
 
 // import { runTests } from './diff-test';
 // runTests();
