@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 import { printDiff } from './deep-equal-print';
 
-import equal from './fast-deep-equal-logging';
+import deepDiff from './fast-deep-equal-logging';
 
 const createContextLogger = ({ comparisonOptions, contexts }) => () => {
   const addConsumer = (contextsMap, values = {}) => {
@@ -32,19 +32,17 @@ const Logger = ({ comparisonOptions, ...values }) => {
   const prevState = useRef();
   const setPrevState = prev => (prevState.current = prev);
 
+  // const compare = equal(prevState.current, values, comparisonOptions);
+
+  // console.group('Context')
+
   printDiff(
-    'Context State',
-    equal(prevState.current, values, comparisonOptions)
+    'Providers',
+    deepDiff(prevState.current, values, comparisonOptions)
   );
 
   setPrevState(values);
   return null;
-};
-
-const logGroup = (label, items) => {
-  console.group(label);
-  console.info(items);
-  console.groupEnd(label);
 };
 
 export default createContextLogger;

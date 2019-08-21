@@ -1,5 +1,3 @@
-'use strict';
-
 // code based on https://github.com/epoberezkin/fast-deep-equal
 
 //options: skipFunctions
@@ -12,7 +10,7 @@ export const RESULTS = {
   VALUE_REMOVED: 'VALUE_REMOVED'
 };
 
-export default function deepEquate(a, b, options = {}) {
+export default function deepDiff(a, b, options = {}) {
   const equal = (a, b) => {
     if (a === b) {
       return createEntry({
@@ -53,7 +51,7 @@ export default function deepEquate(a, b, options = {}) {
           let test = equal(a[i], b[i]);
           if (!test.isEqual) {
             isEq = false;
-            diff.push(test);
+            diff.push(test.data);
           }
         }
         return createEntry({ prev: a, next: b, isEqual: isEq, diff });
@@ -75,7 +73,7 @@ export default function deepEquate(a, b, options = {}) {
                 isEqual: false,
                 results: RESULTS.VALUE_REMOVED,
                 isBottomLevel: true
-              })
+              }).data
             );
             isEq = false;
           } else if (!a.has(bkeys[i])) {
@@ -87,13 +85,13 @@ export default function deepEquate(a, b, options = {}) {
                 isEqual: false,
                 results: RESULTS.VALUE_ADDED,
                 isBottomLevel: true
-              })
+              }).data
             );
             isEq = false;
           } else {
             let test = equal(a.get(akeys[i]), b.get(bkeys[i]));
             isEq = isEq ? test.isEqual : isEq;
-            diff.set(akeys[i], test);
+            diff.set(akeys[i], test.data);
           }
         }
         return createEntry({ prev: a, next: b, isEqual: isEq, diff });
@@ -122,7 +120,7 @@ export default function deepEquate(a, b, options = {}) {
               isEqual: isEq,
               result,
               isBottomLevel: true
-            })
+            }).data
           );
         }
         return createEntry({ prev: a, next: b, isEqual: isEq, diff });
@@ -207,7 +205,7 @@ export default function deepEquate(a, b, options = {}) {
             isEqual: false,
             result: RESULTS.VALUE_REMOVED,
             isBottomLevel: true
-          });
+          }).data;
           isEq = false;
         }
         if (!Object.prototype.hasOwnProperty.call(a, bkeys[i])) {
@@ -218,14 +216,14 @@ export default function deepEquate(a, b, options = {}) {
             isEqual: false,
             result: RESULTS.VALUE_ADDED,
             isBottomLevel: true
-          });
+          }).data;
           isEq = false;
         }
         if (keyInBoth) {
           let test = equal(a[akeys[i]], b[bkeys[i]]);
           if (!test.isEqual) {
             isEq = false;
-            diff[akeys[i]] = test;
+            diff[akeys[i]] = test.data;
           }
         }
       }
@@ -234,6 +232,7 @@ export default function deepEquate(a, b, options = {}) {
     }
 
     // true if both NaN, false otherwise
+    console.ignoredYellowBox = ['Comparing to itself is potentially pointless'];
     return createEntry({
       prev: a,
       next: b,
@@ -268,9 +267,9 @@ export default function deepEquate(a, b, options = {}) {
     isBottomLevel = false
   }) => {
     return isBottomLevel
-      ? { prev, next, isEqual, result, note }
-      : { isEqual, diff, result, note };
+      ? { isEqual, data: { prev, next, result, note } }
+      : { isEqual, data: diff };
   };
 
-  return { prev: a, next: b, equality: equal(a, b) };
+  return { prev: a, next: b, diff: equal(a, b) };
 }
