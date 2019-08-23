@@ -17,8 +17,7 @@ import createContextLogger from './deep equality logger/context-logger';
 
 const contexts = [['Inventory', InventoryContext], ['Filter', FilterContext]];
 const Logger = createContextLogger({
-  contexts,
-  comparisonOptions: { skipFunctions: true }
+  contexts
 });
 
 ReactDOM.render(

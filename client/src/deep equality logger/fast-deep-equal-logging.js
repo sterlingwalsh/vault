@@ -25,7 +25,7 @@ export default function deepDiff(a, b, options = {}) {
       return createEntry({
         prev: a,
         next: b,
-        isEqual: options.skipFunctions,
+        isEqual: !!options.skipFunctions,
         result: options.skipFunctions ? RESULTS.FUNCTION_SKIPPED_UNEQUAL : '',
         isBottomLevel: true
       });

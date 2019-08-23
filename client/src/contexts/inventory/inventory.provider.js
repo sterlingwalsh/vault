@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 
 import { inventory_trimmed } from '../../data/inventory_trimmed';
 
@@ -34,13 +34,13 @@ const InventoryProvider = ({ children }) => {
     INITIAL_CONTEXT.currentGamesDisplayData
   );
 
-  const fetchInventory = () => {
+  const fetchInventory = useCallback(() => {
     setfetchingInventory(true);
     setItemsList(Object.values(hydrateInventory(inventory_trimmed)));
     setfetchingInventory(false);
-  };
+  }, []);
 
-  const fetchGamesData = ids => {
+  const fetchGamesData = useCallback(ids => {
     if (!ids.length) return;
     setFetchingGamesData(true);
     getGameData(ids)
@@ -51,11 +51,11 @@ const InventoryProvider = ({ children }) => {
       })
       .catch(err => console.log(err))
       .finally(() => setFetchingGamesData(false));
-  };
+  }, []);
 
   useEffect(() => {
     fetchGamesData(currentGamesDisplay);
-  }, [currentGamesDisplay]);
+  }, [currentGamesDisplay, fetchGamesData]);
 
   return (
     <InventoryContext.Provider
