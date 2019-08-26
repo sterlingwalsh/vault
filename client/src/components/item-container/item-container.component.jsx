@@ -1,29 +1,13 @@
-import React, { useEffect, useContext } from 'react';
+import React from 'react';
 
 import Item from '../item/item.component';
 
 import { Container } from './item-container.styles.jsx';
 
-import { InventoryContext } from '../../contexts/inventory/inventory.provider';
-import { FilterContext } from '../../contexts/filter/filter.provider';
-
-const ItemContainer = ({ ...otherProps }) => {
-  const {
-    fetchInventory,
-    setCurrentGamesDisplay,
-    currentGamesDisplayData
-  } = useContext(InventoryContext);
-
-  const { itemsListFiltered } = useContext(FilterContext);
-
-  useEffect(fetchInventory, []);
-
-  useEffect(() => {
-    setCurrentGamesDisplay(
-      itemsListFiltered.slice(0, 15).map(item => item.steam_appid)
-    );
-  }, [itemsListFiltered, setCurrentGamesDisplay]);
-
+const ItemContainerComponent = ({
+  currentGamesDisplayData = [],
+  ...otherProps
+}) => {
   return (
     <Container {...otherProps} className='item-container'>
       {currentGamesDisplayData.map((item, i) => (
@@ -33,4 +17,4 @@ const ItemContainer = ({ ...otherProps }) => {
   );
 };
 
-export default ItemContainer;
+export default ItemContainerComponent;

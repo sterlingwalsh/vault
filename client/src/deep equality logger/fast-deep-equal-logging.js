@@ -257,19 +257,19 @@ export default function deepDiff(a, b, options = {}) {
     return keys;
   }
 
-  const createEntry = ({
-    prev = undefined,
-    next = undefined,
-    isEqual = true,
-    diff = undefined,
-    result = '',
-    note = '',
-    isBottomLevel = false
-  }) => {
-    return isBottomLevel
-      ? { isEqual, data: { prev, next, result, note } }
-      : { isEqual, data: diff };
-  };
-
   return { prev: a, next: b, diff: equal(a, b) };
 }
+
+export const createEntry = ({
+  prev = undefined,
+  next = undefined,
+  isEqual = true,
+  diff = undefined,
+  result = '',
+  note = '',
+  isBottomLevel = false
+}) => {
+  return isBottomLevel
+    ? { isEqual, data: { prev, next, result, note } }
+    : { isEqual, data: diff };
+};

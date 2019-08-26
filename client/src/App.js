@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Header from './components/header/header.component';
-import ItemContainer from './components/item-container/item-container.component';
+import ItemContainer from './components/item-container/item-container';
 import Filter from './components/filter/filter.component';
 
 import GlobalStyle from './global.styles';

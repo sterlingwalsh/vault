@@ -29,7 +29,7 @@ const Logger = ({ comparisonOptions, ...values }) => {
   // const consumers = Object.entries(values);
   // const [options, setOptions] = useState({});
   // setOptions(comparisonOptions);
-  console.log(values);
+  // console.log(values);
   const prevState = useRef();
   const setPrevState = prev => (prevState.current = prev);
 

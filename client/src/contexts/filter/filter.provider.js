@@ -3,46 +3,34 @@ import React, { createContext, useEffect, useState, useCallback } from 'react';
 import { sortAlpha, populateFilter, applyFilter } from './filter.utils';
 import FILTERS from '../../data/vault_filters';
 
-const INITIAL_CONTEXT = {
-  itemsListFiltered: [],
-  currentFilter: {}
-};
-
-export const FilterContext = createContext(INITIAL_CONTEXT);
+export const FilterContext = createContext();
 
 const FilterProvider = ({ itemsList, children }) => {
-  const [itemsListFiltered, setItemsListFiltered] = useState(
-    INITIAL_CONTEXT.itemsListFiltered
-  );
+  const [itemsListFiltered, setItemsListFiltered] = useState([]);
 
-  const [currentFilter, setCurrentFilter] = useState(
-    INITIAL_CONTEXT.currentFilter
-  );
-
-  const filterItems = items => setItemsListFiltered(sortAlpha(items));
+  const [currentFilter, setCurrentFilter] = useState({});
 
   const updateFilter = useCallback(
-    (filter => (category, item, status) => {
-      const categoryObject = filter[category];
+    (category, item, status) => {
+      if (!category || !item) return;
+      const categoryObject = currentFilter[category];
       const itemObject = categoryObject[item];
       const newFilter = {
-        ...filter,
+        ...currentFilter,
         [category]: { ...categoryObject, [item]: { ...itemObject, status } }
       };
       setCurrentFilter(newFilter);
-    })(currentFilter),
-    []
+    },
+    [currentFilter]
   );
 
-  const loadFilter = () => {
+  useEffect(() => {
     setCurrentFilter(populateFilter(FILTERS));
-  };
+  }, []);
 
   useEffect(() => {
-    filterItems(itemsList);
+    setItemsListFiltered(sortAlpha(itemsList));
   }, [itemsList]);
-
-  useEffect(loadFilter, []);
 
   useEffect(() => {
     setItemsListFiltered(applyFilter(itemsList, currentFilter));

@@ -13,12 +13,7 @@ const Check = styled.input.attrs(props => ({
 
 const Text = styled.span``;
 
-const CheckBox = ({
-  children,
-  checked,
-  onChange,
-  ...otherProps
-}) => {
+const CheckBox = ({ children, checked, onChange, ...otherProps }) => {
   const ref = React.createRef();
   const handleTextClick = event => {
     ref.current.click();
@@ -26,11 +21,7 @@ const CheckBox = ({
   return (
     <Container {...otherProps}>
       <span>
-        <Check
-          ref={ref}
-          checked={checked}
-          onChange={onChange}
-        />
+        <Check ref={ref} checked={checked} onChange={onChange} />
       </span>
       <Text onClick={handleTextClick}>{children}</Text>
     </Container>

@@ -12,13 +12,8 @@ import FilterProvider, {
 
 import createContextLogger from './deep equality logger/context-logger';
 
-// import { runTests } from './diff-test';
-// runTests();
-
 const contexts = [['Inventory', InventoryContext], ['Filter', FilterContext]];
-const Logger = createContextLogger({
-  contexts
-});
+const Logger = createContextLogger({ contexts });
 
 ReactDOM.render(
   <InventoryProvider>

@@ -1,3 +1,5 @@
+import deepDiff from './fast-deep-equal-logging';
+
 export const printDiff = (title, equalityDiff, options) => {
   const {
     prev,
@@ -17,6 +19,19 @@ export const printDiff = (title, equalityDiff, options) => {
       color,
       noChange ? 'No Change' : data ? data : 'Consumer Created'
     );
+    const perceivedChange = shallowDiff(
+      prevExists ? prev[title] : {},
+      next[title]
+    );
+    if (
+      !deepDiff(Object.keys(data || {}), Object.keys(perceivedChange || {}))
+        .diff.isEqual
+    ) {
+      console.groupCollapsed('%c Shallow Perceived Changes', 'color: red');
+      console.log(perceivedChange);
+      console.groupEnd('Perceived Change');
+    }
+
     logGroup('Next', 'darkgray', nextExists ? next[title] : undefined);
     console.groupEnd(title);
   };
@@ -43,4 +58,24 @@ const logGroup = (title, color = '', val, note = '') => {
 
 const getColor = test => {
   return test ? 'green' : 'red';
+};
+
+const shallowDiff = (prev, next) => {
+  const diff = {};
+
+  const prevKeys = Object.keys(prev);
+  const nextKeys = Object.keys(next);
+
+  const length = Math.max(prevKeys.length, nextKeys.length);
+
+  for (let i = 0; i < length; i++) {
+    if (!Object.is(prev[prevKeys[i]], next[nextKeys[i]])) {
+      diff[prevKeys[i] || nextKeys[i]] = {
+        prev: prev[prevKeys[i]],
+        next: next[nextKeys[i]],
+        isEqual: false
+      };
+    }
+  }
+  return diff;
 };
