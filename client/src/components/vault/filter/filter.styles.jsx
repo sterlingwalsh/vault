@@ -1,23 +1,14 @@
 import styled from 'styled-components';
-import {
-  backgroundColor,
-  borderRadius,
-  textColor,
-  dropShadow
-} from '../../global.styles';
+import { textColor, StyledContainer } from '../../../global.styles';
 
-export const FilterContainer = styled.div`
-  margin: 0.5rem;
-  background: ${backgroundColor};
-  border-radius: ${borderRadius};
+export const FilterContainer = styled(StyledContainer)`
   height: 90vh;
   display: flex;
   flex-direction: column;
-  box-shadow: ${dropShadow};
 `;
 
 export const FilterCategory = styled.div`
-  margin: 1rem 0.5rem;
+  margin: 0.5rem 0rem;
   display: flex;
   flex-direction: column;
   min-height: 0px;
@@ -26,10 +17,10 @@ export const FilterCategory = styled.div`
   max-height: fit-content;
 
   &:first-of-type {
-    margin-top: 0.5rem;
+    margin-top: 0;
   }
   &:last-of-type {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   * {

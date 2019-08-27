@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 
-import CheckBox from '../checkbox/checkbox.component';
+import CheckBox from '../../checkbox/checkbox.component';
 
-import { FilterContext } from '../../contexts/filter/filter.provider';
+import { FilterContext } from '../../../contexts/filter/filter.provider';
 
 import {
   FilterContainer,
@@ -11,7 +11,7 @@ import {
   FilterScrollContainer
 } from './filter.styles.jsx';
 
-import { toProperCase } from '../../util/general.utils';
+import { toProperCase } from '../../../util/general.utils';
 
 const Filter = ({ ...otherProps }) => {
   const { currentFilter, updateFilter } = useContext(FilterContext);
@@ -21,7 +21,7 @@ const Filter = ({ ...otherProps }) => {
   };
 
   return (
-    <FilterContainer {...otherProps}>
+    <FilterContainer className='styled-container' {...otherProps}>
       {Object.keys(currentFilter).map((category, i) => (
         <FilterCategory key={i}>
           <div>{toProperCase(category)}</div>

@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import vaultImage from './resources/vault.jpg';
 
 export const backgroundColor = `#1b2838`;
@@ -28,8 +28,17 @@ export const scrollBar = `
   ::-webkit-scrollbar{
     border-radius: 10px;
     width: 5px;
+    height: 5px;
   }
 }
+`;
+
+export const StyledContainer = styled.div`
+  background: ${backgroundColor};
+  border-radius: ${borderRadius};
+  box-shadow: ${dropShadow};
+  margin: 0.5rem;
+  padding: 0.75rem;
 `;
 
 const GlobalStyle = createGlobalStyle`

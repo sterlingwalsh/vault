@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 
-import { InventoryContext } from '../../contexts/inventory/inventory.provider';
-import { FilterContext } from '../../contexts/filter/filter.provider';
+import { InventoryContext } from '../../../contexts/inventory/inventory.provider';
+import { FilterContext } from '../../../contexts/filter/filter.provider';
 import SteamGameDataProvider, {
   SteamGameDataContext
-} from '../../contexts/steam-game-data/steam-game-data.provider';
+} from '../../../contexts/steam-game-data/steam-game-data.provider';
 
 import ItemContainerComponent from './item-container.component';
 
-import createContextLogger from '../../deep equality logger/context-logger';
+import createContextLogger from '../../../deep equality logger/context-logger';
 
 const Logger = createContextLogger({
   contexts: [['Game Data', SteamGameDataContext]]

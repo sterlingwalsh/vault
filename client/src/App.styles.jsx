@@ -10,14 +10,5 @@ export const Body = styled.div`
 `;
 
 export const MainSection = styled.div`
-  display: flex;
-  flex-direction: row;
   height: calc(100vh - ${headerHeight + 'px'});
-  overflow: hidden;
-
-  > * {
-    height: 100%;
-  }
 `;
-
-export const FilterContainer = styled.aside``;

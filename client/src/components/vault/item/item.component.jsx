@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SanitizeHTML from '../sanitize/sanitize.component';
+import SanitizeHTML from '../../sanitize/sanitize.component';
 
 import './item.styles.scss';
 

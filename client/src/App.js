@@ -1,26 +1,29 @@
 import React from 'react';
 
-import Header from './components/header/header.component';
-import ItemContainer from './components/item-container/item-container';
-import Filter from './components/filter/filter.component';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import Header from './components/vault/header/header.component';
+import InventoryPage from './pages/inventory/inventory.page';
+import AdminPage from './pages/admin/admin.page';
 
 import GlobalStyle from './global.styles';
 
 // import { getGameData } from './util/steamapi';
 
-import { MainSection, FilterContainer, Body } from './App.styles.jsx';
+import { MainSection, Body } from './App.styles.jsx';
 
 const App = (...AllProps) => {
   return (
     <Body>
       <GlobalStyle />
-      <Header className='header' />
-      <MainSection>
-        <FilterContainer>
-          <Filter className='filter' />
-        </FilterContainer>
-        <ItemContainer className='item-container' />
-      </MainSection>
+      <Router>
+        <Header className='header' />
+        <MainSection>
+          <Route path='/vault/:id' component={InventoryPage} />
+          <Route path='/admin/:id' component={AdminPage} />
+          <Route path='/' exact component={AdminPage} />
+        </MainSection>
+      </Router>
     </Body>
   );
 };

@@ -2,14 +2,14 @@ import React from 'react';
 
 import Item from '../item/item.component';
 
-import { Container } from './item-container.styles.jsx';
+import { Container } from './item-container.styles';
 
 const ItemContainerComponent = ({
   currentGamesDisplayData = [],
   ...otherProps
 }) => {
   return (
-    <Container {...otherProps} className='item-container'>
+    <Container {...otherProps}>
       {currentGamesDisplayData.map((item, i) => (
         <Item key={i} gameData={item} />
       ))}
