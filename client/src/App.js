@@ -21,7 +21,7 @@ const App = (...AllProps) => {
         <MainSection>
           <Route path='/vault/:id' component={InventoryPage} />
           <Route path='/admin/:id' component={AdminPage} />
-          <Route path='/' exact component={AdminPage} />
+          <Route path='/' exact component={InventoryPage} />
         </MainSection>
       </Router>
     </Body>

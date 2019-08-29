@@ -30,6 +30,7 @@ const Logger = ({ comparisonOptions, ...values }) => {
   // const [options, setOptions] = useState({});
   // setOptions(comparisonOptions);
   // console.log(values);
+
   const prevState = useRef();
   const setPrevState = prev => (prevState.current = prev);
 

@@ -16,8 +16,12 @@ import { toProperCase } from '../../../util/general.utils';
 const Filter = ({ ...otherProps }) => {
   const { currentFilter, updateFilter } = useContext(FilterContext);
 
-  const handleClick = (evt, category, item) => {
-    updateFilter(category, item, evt.target.checked);
+  const handleClick = evt => {
+    const {
+      checked,
+      dataset: { category, item }
+    } = evt.target;
+    updateFilter(category, item, checked);
   };
 
   return (
@@ -28,7 +32,7 @@ const Filter = ({ ...otherProps }) => {
           <FilterScrollContainer>
             {Object.keys(currentFilter[category]).map((item, j) => (
               <CheckBoxContainer key={j}>
-                <CheckBox onChange={evt => handleClick(evt, category, item)}>
+                <CheckBox data={{ category, item }} onChange={handleClick}>
                   {currentFilter[category][item].name}
                 </CheckBox>
               </CheckBoxContainer>
