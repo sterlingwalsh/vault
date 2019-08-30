@@ -57,7 +57,7 @@ const ComponentContainer = styled.div`
 `;
 
 const CheckBoxComponent = ({
-  data,
+  data = {},
   children,
   checked,
   onChange,

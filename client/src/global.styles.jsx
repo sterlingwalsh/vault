@@ -8,18 +8,19 @@ export const borderRadius = `0.5rem;`;
 export const dropShadow = `0 0.33rem 0.67rem 0 black`;
 
 export const scrollBar = `
-  
-  transition: color 1s ease-in-out 1s;
-  color: rgba(${textColorCode}, 0);
-  text-shadow: 0 0 ${textColor};
 
   &:hover{
-    transition: color .5s ease-in-out;
-    color: rgba(${textColorCode}, 1)}
+    &::-webkit-scrollbar-thumb{
+      background-color: rgba(${textColorCode}, 1);
+    }
+  }
 
   ::-webkit-scrollbar-thumb{
     border-radius: 10px;
     box-shadow: inset 0 0 0 10px;
+    
+    color: rgba(0,0,0,0);
+    background-color: rgba(${textColorCode}, 0);
   }
 
   ::-webkit-scrollbar-track{
@@ -29,6 +30,7 @@ export const scrollBar = `
     border-radius: 10px;
     width: 5px;
     height: 5px;
+    transition: background-color 1s ease-in-out 1s;
   }
 }
 `;
@@ -45,9 +47,12 @@ const GlobalStyle = createGlobalStyle`
 * {
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
-  ${scrollBar};
+  color: ${textColor};
   scroll-behavior: smooth;
-  text-size: 14px;
+  font-size: 16px;
+  ${scrollBar};
+  
+  
 }
 
 body,
