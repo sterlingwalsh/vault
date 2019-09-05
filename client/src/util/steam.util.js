@@ -1,7 +1,8 @@
-// const STEAM_APPLIST = 'http://api.steampowered.com/ISteamApps/GetAppList/v2';
+//const STEAM_APPLIST = 'http://api.steampowered.com/ISteamApps/GetAppList/v2';
 
-// export const getSteamAppList = async() => {
+// export const getSteamAppList = async () => {
 //   const appList = await fetch(STEAM_APPLIST);
-//   const json = appList.json();
+//   const json = await appList.json();
 //   return json;
-// }
+// };
+

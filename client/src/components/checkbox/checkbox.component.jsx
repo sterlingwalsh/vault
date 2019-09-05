@@ -67,7 +67,7 @@ const CheckBoxComponent = ({
   const handleTextClick = event => {
     ref.current.click();
   };
-  console.log('check render');
+  // console.log('check render');
   const dataset = {};
   Object.entries(data).forEach(([key, val]) => {
     dataset['data-' + key] = val;

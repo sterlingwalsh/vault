@@ -1,17 +1,18 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import vaultImage from './resources/vault.jpg';
 
-export const backgroundColor = `#1b2838`;
+export const backgroundColorCode = `27, 40, 56`;
+export const backgroundColor = `rgb(${backgroundColorCode})`;
 export const textColorCode = `230, 230, 230`;
 export const textColor = `rgb(${textColorCode})`;
 export const borderRadius = `0.5rem;`;
 export const dropShadow = `0 0.33rem 0.67rem 0 black`;
 
-export const scrollBar = `
+export const scrollBar = color => `
 
   &:hover{
     &::-webkit-scrollbar-thumb{
-      background-color: rgba(${textColorCode}, 1);
+      background-color: rgba(${color}, 1);
     }
   }
 
@@ -20,7 +21,7 @@ export const scrollBar = `
     box-shadow: inset 0 0 0 10px;
     
     color: rgba(0,0,0,0);
-    background-color: rgba(${textColorCode}, 0);
+    background-color: rgba(${color}, 0);
   }
 
   ::-webkit-scrollbar-track{
@@ -43,6 +44,15 @@ export const StyledContainer = styled.div`
   padding: 0.75rem;
 `;
 
+export const StyledContainerInverted = styled.div`
+  background: ${textColor};
+  border-radius: ${borderRadius};
+  box-shadow: ${dropShadow};
+  ${scrollBar(backgroundColorCode)}
+  margin: 0.5rem;
+  padding: 0.75rem;
+`;
+
 const GlobalStyle = createGlobalStyle`
 * {
   box-sizing: border-box;
@@ -50,7 +60,7 @@ const GlobalStyle = createGlobalStyle`
   color: ${textColor};
   scroll-behavior: smooth;
   font-size: 16px;
-  ${scrollBar};
+  ${scrollBar(textColorCode)};
   
   
 }
