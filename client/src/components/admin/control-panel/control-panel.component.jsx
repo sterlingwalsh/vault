@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import DropDown from '../../dropdown/dropdown.component';
+import DropDown from '../../custom-controls/dropdown/dropdown.component';
 
 import { ControlPanelContainer } from './control-panel.styles';
-// import CheckBox from '../../checkbox/checkbox.component';
+import CheckBox from '../../custom-controls/checkbox/checkbox.component';
 
 import { applist } from '../../../data/steam_applist';
 
@@ -29,7 +29,7 @@ const ControlPanel = ({ ...otherProps }) => {
         values={appList}
         onSelectionChange={onSelectionChange}
       />
-      {/* <CheckBox>check</CheckBox> */}
+      <CheckBox>check</CheckBox>
     </ControlPanelContainer>
   );
 };

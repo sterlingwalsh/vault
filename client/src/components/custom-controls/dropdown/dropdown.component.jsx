@@ -7,7 +7,7 @@ import {
   backgroundColor,
   backgroundColorCode,
   StyledContainerInverted
-} from '../../global.styles';
+} from '../../../global.styles';
 
 const Container = styled.div``;
 const ControlContainer = styled.div`
@@ -31,7 +31,6 @@ const Input = styled.input.attrs(props => ({
   type: 'text'
 }))`
   position: relative;
-  color: inherit;
   background: none;
   border: none;
 
@@ -136,7 +135,7 @@ const DropDown = ({
   onSelectionChange = () => {},
   ...otherProps
 }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [valuesMap, setValuesMap] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [displayedValues, setDisplayedValues] = useState([]);
@@ -186,16 +185,21 @@ const DropDown = ({
     evt => {
       const key = evt.keyCode;
 
-      switch(key){
+      switch (key) {
         case 38:
           setHighlightedIndex(Math.max(-1, highlightedIndex - 1));
           break;
-        case 40: 
-          setHighlightedIndex(Math.min(displayedValues.length - 1, highlightedIndex + 1));
+        case 40:
+          setHighlightedIndex(
+            Math.min(displayedValues.length - 1, highlightedIndex + 1)
+          );
           break;
         case 13:
-          if(highlightedIndex > -1 && highlightedIndex < displayedValues.length){
-            setSelection(highlightedIndex)
+          if (
+            highlightedIndex > -1 &&
+            highlightedIndex < displayedValues.length
+          ) {
+            setSelection(highlightedIndex);
           }
           break;
         default:

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import CheckBox from '../../checkbox/checkbox.component';
+import CheckBox from '../../custom-controls/checkbox/checkbox.component';
 
 import { FilterContext } from '../../../contexts/filter/filter.provider';
 

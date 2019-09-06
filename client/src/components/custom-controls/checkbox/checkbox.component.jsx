@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { textColor } from '../../global.styles';
+import { textColor } from '../../../global.styles';
 
 const CheckBox = styled.input.attrs(props => ({
   type: 'checkbox'
