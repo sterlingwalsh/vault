@@ -1,4 +1,4 @@
-import deepDiff from './fast-deep-equal-logging';
+import deepDiff from "./fast-deep-equal-logging";
 
 export const printDiff = (title, equalityDiff, options) => {
   const {
@@ -13,26 +13,38 @@ export const printDiff = (title, equalityDiff, options) => {
     const noChange = !!(prevExists && nextExists && !data);
     const color = getColor(noChange);
     console.groupCollapsed(`%c ${title}`, `color: ${color}`);
-    logGroup('Prev', 'darkGray', prevExists ? prev[title] : undefined);
+    logGroup("Prev", "darkGray", prevExists ? prev[title] : undefined);
     logGroup(
-      'Diff',
+      "Diff",
       color,
-      noChange ? 'No Change' : data ? data : 'Consumer Created'
+      noChange ? "No Change" : data ? data : "Consumer Created"
     );
     const perceivedChange = shallowDiff(
       prevExists ? prev[title] : {},
       next[title]
     );
+
+    const onlyPerceivedChanges = Object.entries(perceivedChange).reduce(
+      (acc, [key, value]) => {
+        if (data && !data[key]) {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {}
+    );
+
     if (
-      !deepDiff(Object.keys(data || {}), Object.keys(perceivedChange || {}))
-        .diff.isEqual
+      Object.keys(onlyPerceivedChanges).length
+      // !deepDiff(Object.keys(data || {}), Object.keys(perceivedChange || {}))
+      //   .diff.isEqual
     ) {
-      console.groupCollapsed('%c Shallow Perceived Changes', 'color: red');
-      console.log(perceivedChange);
-      console.groupEnd('Perceived Change');
+      console.groupCollapsed("%c Shallow Perceived Changes", "color: red");
+      console.log(onlyPerceivedChanges);
+      console.groupEnd("Perceived Change");
     }
 
-    logGroup('Next', 'darkgray', nextExists ? next[title] : undefined);
+    logGroup("Next", "darkgray", nextExists ? next[title] : undefined);
     console.groupEnd(title);
   };
 
@@ -47,17 +59,17 @@ export const printDiff = (title, equalityDiff, options) => {
 
   consumers.forEach(key => printConsumer(key, data[key]));
   console.groupEnd(title);
-  console.log('\n');
+  console.log("\n");
 };
 
-const logGroup = (title, color = '', val, note = '') => {
+const logGroup = (title, color = "", val, note = "") => {
   console.group(`%c ${title}`, `color: ${color}`);
   console.log(val);
   console.groupEnd(title);
 };
 
 const getColor = test => {
-  return test ? 'green' : 'red';
+  return test ? "green" : "red";
 };
 
 const shallowDiff = (prev, next) => {
