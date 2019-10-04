@@ -1,50 +1,24 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from "react";
 
-import { printDiff } from './deep-equal-print';
+import { printDiff } from "./deep-equal-print";
 
-import deepDiff from './fast-deep-equal-logging';
+import deepDiff from "./fast-deep-equal-logging";
 
-const createContextLogger = ({ comparisonOptions, contexts }) => () => {
-  const addConsumer = (contextsMap, values = {}) => {
-    const [consumer, ...remainingContexts] = contextsMap;
-    const [consumerName, consumerObject] = consumer;
-    return (
-      <consumerObject.Consumer>
-        {value => {
-          values[consumerName] = value;
-          return remainingContexts.length ? (
-            addConsumer(remainingContexts, values)
-          ) : (
-            <Logger comparisonOptions={comparisonOptions} {...values} />
-          );
-        }}
-      </consumerObject.Consumer>
-    );
-  };
+let globalLoggerOptions = { collapseTopLevel: false, useTimeStamp: false };
 
-  return addConsumer(contexts);
+export const setGlobalLoggerOptions = options => {
+  globalLoggerOptions = options;
 };
 
-const Logger = ({ comparisonOptions, ...values }) => {
-  // const consumers = Object.entries(values);
-  // const [options, setOptions] = useState({});
-  // setOptions(comparisonOptions);
-  // console.log(values);
-
+const Logger = ({ title, options = globalLoggerOptions, context }) => {
   const prevState = useRef();
   const setPrevState = prev => (prevState.current = prev);
+  const values = useContext(context);
 
-  // const compare = equal(prevState.current, values, comparisonOptions);
-
-  // console.group('Context')
-
-  printDiff(
-    'Providers',
-    deepDiff(prevState.current, values, comparisonOptions)
-  );
+  printDiff(title, deepDiff(prevState.current, values, options), options);
 
   setPrevState(values);
   return null;
 };
 
-export default createContextLogger;
+export default Logger;

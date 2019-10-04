@@ -1,11 +1,32 @@
-import React, { createContext, useEffect, useState, useCallback } from 'react';
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  useCallback,
+  useContext
+} from "react";
 
-import { sortAlpha, populateFilter, applyFilter } from './filter.utils';
-import FILTERS from '../../data/vault_filters';
+import { sortAlpha, populateFilter, applyFilter } from "./filter.utils";
+import FILTERS from "../../data/vault_filters";
+
+import Logger from "../../deep equality logger/context-logger";
 
 export const FilterContext = createContext();
 
-const FilterProvider = ({ itemsList, children }) => {
+export const useFilter = () => useContext(FilterContext);
+
+export const FilterProvider = ({ itemsList, children }) => {
+  const value = useFilterValues(itemsList);
+
+  return (
+    <FilterContext.Provider value={value}>
+      <Logger title={"Filter"} context={FilterContext} />
+      {children}
+    </FilterContext.Provider>
+  );
+};
+
+const useFilterValues = itemsList => {
   const [itemsListFiltered, setItemsListFiltered] = useState([]);
 
   const [currentFilter, setCurrentFilter] = useState({});
@@ -36,17 +57,11 @@ const FilterProvider = ({ itemsList, children }) => {
     setItemsListFiltered(applyFilter(itemsList, currentFilter));
   }, [itemsList, currentFilter]);
 
-  return (
-    <FilterContext.Provider
-      value={{
-        itemsListFiltered,
-        updateFilter,
-        currentFilter
-      }}
-    >
-      {children}
-    </FilterContext.Provider>
-  );
+  return {
+    itemsListFiltered,
+    updateFilter,
+    currentFilter
+  };
 };
 
 export default FilterProvider;

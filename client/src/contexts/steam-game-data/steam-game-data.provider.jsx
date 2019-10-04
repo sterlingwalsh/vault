@@ -1,10 +1,29 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useCallback,
+  useContext
+} from "react";
 
-import { getGameData } from './steamapi';
+import { getGameData } from "./steamapi";
+import Logger from "../../deep equality logger/context-logger";
 
 export const SteamGameDataContext = createContext();
 
-const SteamGameDataProvider = ({ children }) => {
+export const useGameData = () => useContext(SteamGameDataContext);
+
+export const SteamGameDataProvider = ({ children }) => {
+  const value = useSteamGameData();
+  return (
+    <SteamGameDataContext.Provider value={value}>
+      <Logger title={"Game Data"} context={SteamGameDataContext} />
+      {children}
+    </SteamGameDataContext.Provider>
+  );
+};
+
+export const useSteamGameData = () => {
   const [currentDisplayedGames, setCurrentDisplayedGames] = useState([]);
 
   const [fetchingGamesData, setFetchingGamesData] = useState(true);
@@ -27,17 +46,11 @@ const SteamGameDataProvider = ({ children }) => {
     fetchGamesData(currentDisplayedGames);
   }, [currentDisplayedGames, fetchGamesData]);
 
-  return (
-    <SteamGameDataContext.Provider
-      value={{
-        setCurrentDisplayedGames,
-        currentGamesDisplayData,
-        fetchingGamesData
-      }}
-    >
-      {children}
-    </SteamGameDataContext.Provider>
-  );
+  return {
+    setCurrentDisplayedGames,
+    currentGamesDisplayData,
+    fetchingGamesData
+  };
 };
 
 export default SteamGameDataProvider;

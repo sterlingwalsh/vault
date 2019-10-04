@@ -1,34 +1,28 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from "react";
 
-import { InventoryContext } from '../../../contexts/inventory/inventory.provider';
-import { FilterContext } from '../../../contexts/filter/filter.provider';
+import { useInventory } from "../../../contexts/inventory/inventory.provider";
+import { FilterContext } from "../../../contexts/filter/filter.provider";
 import SteamGameDataProvider, {
-  SteamGameDataContext
-} from '../../../contexts/steam-game-data/steam-game-data.provider';
+  useSteamGameData
+} from "../../../contexts/steam-game-data/steam-game-data.provider";
 
-import ItemContainerComponent from './item-container.component';
-
-import createContextLogger from '../../../deep equality logger/context-logger';
-
-const Logger = createContextLogger({
-  contexts: [['Game Data', SteamGameDataContext]]
-});
+import ItemContainerComponent from "./item-container.component";
 
 const ItemContainerProviderWrapper = WrappedComponent => () => (
   <SteamGameDataProvider>
-    <Logger />
     <WrappedComponent />
   </SteamGameDataProvider>
 );
 
 const ItemContainer = ({ ...otherProps }) => {
-  const { fetchInventory } = useContext(InventoryContext);
+  const { fetchInventory } = useInventory();
 
   const { itemsListFiltered } = useContext(FilterContext);
 
-  const { setCurrentDisplayedGames, currentGamesDisplayData } = useContext(
-    SteamGameDataContext
-  );
+  const {
+    setCurrentDisplayedGames,
+    currentGamesDisplayData
+  } = useSteamGameData();
 
   useEffect(fetchInventory, []);
 

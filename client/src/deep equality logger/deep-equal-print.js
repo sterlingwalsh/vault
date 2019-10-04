@@ -1,11 +1,60 @@
-import deepDiff from "./fast-deep-equal-logging";
-
-export const printDiff = (title, equalityDiff, options) => {
+export const printDiff = (title, equalityDiff, options = {}) => {
   const {
     prev,
     next,
     diff: { isEqual, data }
   } = equalityDiff;
+
+  const topGroupLog = options.collapseTopLevel
+    ? console.groupCollapsed
+    : console.group;
+
+  const logGroup = (title, color = "", val, note = "") => {
+    console.group(`%c ${title}`, `color: ${color}`);
+    console.log(val);
+    console.groupEnd(title);
+  };
+
+  const getColor = test => {
+    return test ? "green" : "red";
+  };
+
+  const getFormattedDate = () => {
+    const date = new Date();
+    return `${date
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${date
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}:${date
+      .getSeconds()
+      .toString()
+      .padStart(2, "0")}.${date
+      .getMilliseconds()
+      .toString()
+      .padStart(3, "0")}`;
+  };
+
+  const shallowDiff = (prev, next) => {
+    const diff = {};
+
+    const prevKeys = Object.keys(prev);
+    const nextKeys = Object.keys(next);
+
+    const length = Math.max(prevKeys.length, nextKeys.length);
+
+    for (let i = 0; i < length; i++) {
+      if (!Object.is(prev[prevKeys[i]], next[nextKeys[i]])) {
+        diff[prevKeys[i] || nextKeys[i]] = {
+          prev: prev[prevKeys[i]],
+          next: next[nextKeys[i]],
+          isEqual: false
+        };
+      }
+    }
+    return diff;
+  };
 
   const printConsumer = (title, data) => {
     const prevExists = !!(prev && prev[title]);
@@ -49,7 +98,11 @@ export const printDiff = (title, equalityDiff, options) => {
   };
 
   // console.log(equalityDiff);
-  console.group(`%c ${title}`, `color: ${getColor(isEqual)}`);
+  topGroupLog(
+    `%c${options.useTimeStamp ? `${getFormattedDate()}` : ""} ` + `%c${title}`,
+    "color: lightgray",
+    `color: ${getColor(isEqual)}`
+  );
 
   const consumers = Array.from(
     new Set(
@@ -59,35 +112,5 @@ export const printDiff = (title, equalityDiff, options) => {
 
   consumers.forEach(key => printConsumer(key, data[key]));
   console.groupEnd(title);
-  console.log("\n");
-};
-
-const logGroup = (title, color = "", val, note = "") => {
-  console.group(`%c ${title}`, `color: ${color}`);
-  console.log(val);
-  console.groupEnd(title);
-};
-
-const getColor = test => {
-  return test ? "green" : "red";
-};
-
-const shallowDiff = (prev, next) => {
-  const diff = {};
-
-  const prevKeys = Object.keys(prev);
-  const nextKeys = Object.keys(next);
-
-  const length = Math.max(prevKeys.length, nextKeys.length);
-
-  for (let i = 0; i < length; i++) {
-    if (!Object.is(prev[prevKeys[i]], next[nextKeys[i]])) {
-      diff[prevKeys[i] || nextKeys[i]] = {
-        prev: prev[prevKeys[i]],
-        next: next[nextKeys[i]],
-        isEqual: false
-      };
-    }
-  }
-  return diff;
+  // console.log("\n");
 };

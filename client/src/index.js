@@ -1,32 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 
 import InventoryProvider, {
   InventoryContext
-} from './contexts/inventory/inventory.provider';
-import FilterProvider, {
-  FilterContext
-} from './contexts/filter/filter.provider';
+} from "./contexts/inventory/inventory.provider";
+import FilterProvider from "./contexts/filter/filter.provider";
 
-import createContextLogger from './deep equality logger/context-logger';
+import { setGlobalLoggerOptions } from "./deep equality logger/context-logger";
 
-const contexts = [['Inventory', InventoryContext], ['Filter', FilterContext]];
-const Logger = createContextLogger({ contexts });
+setGlobalLoggerOptions({ collapseTopLevel: true, useTimeStamp: true });
 
 ReactDOM.render(
   <InventoryProvider>
     <InventoryContext.Consumer>
       {value => (
         <FilterProvider {...value}>
-          <Logger />
           <App />
         </FilterProvider>
       )}
     </InventoryContext.Consumer>
   </InventoryProvider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

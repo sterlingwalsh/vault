@@ -1,12 +1,30 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useCallback,
+  useContext
+} from "react";
 
-import { inventory_trimmed } from '../../data/inventory_trimmed';
-
-import { hydrateInventory } from './inventory.utils';
+import { inventory_trimmed } from "../../data/inventory_trimmed";
+import { hydrateInventory } from "./inventory.utils";
+import Logger from "../../deep equality logger/context-logger";
 
 export const InventoryContext = createContext();
 
-const InventoryProvider = ({ children }) => {
+export const useInventory = () => useContext(InventoryContext);
+
+export const InventoryProvider = ({ children }) => {
+  const inventory = useInventoryValues();
+  return (
+    <InventoryContext.Provider value={inventory}>
+      <Logger title={"Inventory"} context={InventoryContext} />
+      {children}
+    </InventoryContext.Provider>
+  );
+};
+
+export const useInventoryValues = () => {
   const [itemsList, setItemsList] = useState([]);
   const [fetchingInventory, setfetchingInventory] = useState(false);
 
@@ -18,17 +36,11 @@ const InventoryProvider = ({ children }) => {
 
   useEffect(fetchInventory, []);
 
-  return (
-    <InventoryContext.Provider
-      value={{
-        itemsList,
-        fetchingInventory,
-        fetchInventory
-      }}
-    >
-      {children}
-    </InventoryContext.Provider>
-  );
+  return {
+    itemsList,
+    fetchingInventory,
+    fetchInventory
+  };
 };
 
 export default InventoryProvider;
